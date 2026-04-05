@@ -504,7 +504,7 @@ document.getElementById('gbSubmit').addEventListener('click',function(){
   fetch(SB_URL+'/rest/v1/messages',{
     method:'POST',
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({name:name,title:title||null,body:body})
+    body:JSON.stringify({name:name,title:title||'',body:body})
   })
   .then(function(r){
     btn.textContent='发布';
