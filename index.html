@@ -180,6 +180,11 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   .form-row { flex-direction:column; }
   .form-input.name-input { width:100%; }
 }
+
+  .back-top { position:fixed; bottom:36px; right:36px; width:36px; height:36px; border:1px solid var(--border-rule); background:var(--bg); color:var(--purple-mid); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s,border-color .25s,color .25s; z-index:100; }
+.back-top.visible { opacity:1; pointer-events:auto; }
+.back-top:hover { border-color:var(--purple-soft); color:var(--purple-deep); }
+
 </style>
 </head>
 <body>
@@ -327,6 +332,8 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 
 </div>
 
+<button class="back-top" id="backTop">&#8593;</button>
+  
 <script>
 (function(){
   var el=document.getElementById('stars');
@@ -446,24 +453,38 @@ listEl.addEventListener('click',function(e){
 
 worksLabel.innerHTML='Works &nbsp;&mdash;&nbsp; '+WORKS.length+' 篇';
 
-var messages=[];
+var SB_URL='https://zkpctzxyqpiiqxvnmauo.supabase.co';
+var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcGN0enh5cXBpaXF4dm5tYXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDkxNDAsImV4cCI6MjA5MDkyNTE0MH0.Z7WdneCs_vJOblWho1neuMLI86h1FrdNqi6N2-DI4ZQ';
+
 var messagesEl=document.getElementById('messages');
 var noMsgEl=document.getElementById('noMessages');
 
 function pad(n){return String(n).padStart(2,'0');}
-function fmtTime(d){return d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function renderMessages(){
+function fmtTime(str){
+  var d=new Date(str);
+  return d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+
+function renderMessages(rows){
   messagesEl.querySelectorAll('.message').forEach(function(m){m.remove();});
-  noMsgEl.style.display=messages.length===0?'block':'none';
-  var rev=messages.slice().reverse();
-  rev.forEach(function(m){
+  noMsgEl.style.display=rows.length===0?'block':'none';
+  rows.forEach(function(m){
     var d=document.createElement('div');
     d.className='message';
-    d.innerHTML='<div class="message-header"><span class="message-name">'+esc(m.name)+(m.title?' &nbsp;&middot;&nbsp; <span style="font-style:normal;font-size:12px;color:var(--text-sub)">'+esc(m.title)+'</span>':'')+'</span><span class="message-time">'+m.time+'</span></div><div class="message-body">'+esc(m.body).replace(/\n/g,'<br>')+'</div>';
+    d.innerHTML='<div class="message-header"><span class="message-name">'+esc(m.name)+(m.title?' &nbsp;&middot;&nbsp; <span style="font-style:normal;font-size:12px;color:var(--text-sub)">'+esc(m.title)+'</span>':'')+'</span><span class="message-time">'+fmtTime(m.created_at)+'</span></div><div class="message-body">'+esc(m.body).replace(/\n/g,'<br>')+'</div>';
     messagesEl.appendChild(d);
   });
+}
+
+function loadMessages(){
+  fetch(SB_URL+'/rest/v1/messages?order=created_at.desc&limit=50',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+  })
+  .then(function(r){return r.json();})
+  .then(function(rows){renderMessages(Array.isArray(rows)?rows:[]);})
+  .catch(function(){renderMessages([]);});
 }
 
 document.getElementById('gbSubmit').addEventListener('click',function(){
@@ -477,14 +498,44 @@ document.getElementById('gbSubmit').addEventListener('click',function(){
   }
   document.getElementById('gbName').style.borderColor='';
   document.getElementById('gbBody').style.borderColor='';
-  messages.push({name:name,title:title,body:body,time:fmtTime(new Date())});
-  document.getElementById('gbName').value='';
-  document.getElementById('gbTitle').value='';
-  document.getElementById('gbBody').value='';
-  renderMessages();
+  var btn=document.getElementById('gbSubmit');
+  btn.textContent='发布中…';
+  btn.disabled=true;
+  fetch(SB_URL+'/rest/v1/messages',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({name:name,title:title||null,body:body})
+  })
+  .then(function(r){
+    btn.textContent='发布';
+    btn.disabled=false;
+    if(r.ok){
+      document.getElementById('gbName').value='';
+      document.getElementById('gbTitle').value='';
+      document.getElementById('gbBody').value='';
+      loadMessages();
+    } else {
+      alert('发布失败，请稍后再试。');
+    }
+  })
+  .catch(function(){
+    btn.textContent='发布';
+    btn.disabled=false;
+    alert('网络错误，请稍后再试。');
+  });
 });
 
-renderMessages();
+loadMessages();
+
+
+  var backTop=document.getElementById('backTop');
+window.addEventListener('scroll',function(){
+  backTop.classList.toggle('visible',window.scrollY>400);
+});
+backTop.addEventListener('click',function(){
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
 </script>
 </body>
 </html>
