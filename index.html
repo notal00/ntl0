@@ -141,6 +141,17 @@ header { padding-top:96px; padding-bottom:36px; opacity:0; animation:fadeUp 1s e
 
 .no-results { font-family:'Cormorant Garamond','Georgia',serif; font-size:14px; font-style:italic; color:var(--text-muted); letter-spacing:.08em; padding:40px 0; display:none; }
 
+/* UPDATES */
+.updates-section { margin-top:64px; padding-top:48px; border-top:1px solid var(--border-rule); }
+.updates-title { font-family:'Cormorant Garamond','Georgia',serif; font-size:10px; letter-spacing:.45em; text-transform:uppercase; color:var(--text-muted); margin-bottom:28px; }
+.update-list { display:flex; flex-direction:column; }
+.update-item { display:flex; align-items:baseline; gap:20px; padding:10px 0; border-top:1px solid transparent; border-image:linear-gradient(90deg,var(--border-rule) 0%,transparent 100%) 1; }
+.update-item.hidden { display:none; }
+.update-date { font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; color:var(--text-muted); letter-spacing:.1em; flex-shrink:0; width:56px; }
+.update-text { font-family:'Noto Sans SC','PingFang SC',sans-serif; font-size:11.5px; color:var(--text-sub); letter-spacing:.08em; line-height:1.7; }
+.update-more { margin-top:16px; background:none; border:none; font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; font-style:italic; letter-spacing:.15em; color:var(--text-muted); cursor:pointer; padding:0; transition:color .25s; }
+.update-more:hover { color:var(--purple-mid); }
+  
 /* GUESTBOOK */
 .guestbook-section { margin-top:64px; padding-top:48px; border-top:1px solid var(--border-rule); opacity:0; animation:fadeUp .9s ease 1.1s forwards; }
 .guestbook-title { font-family:'Cormorant Garamond','Georgia',serif; font-size:10px; letter-spacing:.45em; text-transform:uppercase; color:var(--text-muted); margin-bottom:32px; }
@@ -313,6 +324,29 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   <div class="works" id="worksList"></div>
   <div class="no-results" id="noResults">暂无该标签下的作品。</div>
 
+  <div class="updates-section">
+    <div class="updates-title">近期更新 &nbsp;&mdash;&nbsp; Updates</div>
+    <div class="update-list" id="updateList">
+      <div class="update-item">
+        <span class="update-date">2026.04</span>
+        <span class="update-text">《繁荫》更新至第21章</span>
+      </div>
+      <div class="update-item">
+        <span class="update-date">2026.04</span>
+        <span class="update-text">《苦玫瑰》更新番外</span>
+      </div>
+      <div class="update-item">
+        <span class="update-date">2026.04</span>
+        <span class="update-text">《不想恋爱的理由》完结</span>
+      </div>
+      <div class="update-item hidden">
+        <span class="update-date">2026.01</span>
+        <span class="update-text">&lt;Lucent&gt;短篇完结</span>
+      </div>
+    </div>
+    <button class="update-more" id="updateMore">展开更多</button>
+  </div>
+  
   <div class="guestbook-section">
     <div class="guestbook-title">留言板 &nbsp;&mdash;&nbsp; Guestbook</div>
     <div class="guestbook-form">
@@ -344,6 +378,16 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 
   
 <script>
+var updateMore=document.getElementById('updateMore');
+var updateExpanded=false;
+updateMore.addEventListener('click',function(){
+  updateExpanded=!updateExpanded;
+  document.querySelectorAll('#updateList .update-item.hidden').forEach(function(el){
+    el.style.display=updateExpanded?'flex':'none';
+  });
+  updateMore.textContent=updateExpanded?'收起':'展开更多';
+});
+  
 (function(){
   var el=document.getElementById('stars');
   for(var i=0;i<36;i++){
