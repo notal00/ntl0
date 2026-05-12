@@ -275,14 +275,26 @@ var scores={};
 WORKS.forEach(function(t){ scores[t]={sum:0,count:0}; });
 
 function loadScores(cb){
-  fetch(SB_URL+'/rest/v1/ratings?select=title,score',{
+  fetch(SB_URL+'/rest/v1/ratings?select=title,score,created_at&order=created_at.asc',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
   })
   .then(function(r){return r.json();})
   .then(function(rows){
     WORKS.forEach(function(t){ scores[t]={sum:0,count:0}; });
     if(Array.isArray(rows)){
-      rows.forEach(function(r){
+      // 去重：同一篇文章60秒内只取第一条
+      var lastTime={};
+      var filtered=rows.filter(function(r){
+        var key=r.title;
+        var t=new Date(r.created_at).getTime();
+        if(lastTime[key]===undefined || t-lastTime[key]>60000){
+          lastTime[key]=t;
+          return true;
+        }
+        return false;
+      });
+      filtered=filtered.filter(function(r){ return r.score>1; });
+      filtered.forEach(function(r){
         if(scores[r.title]!==undefined){
           scores[r.title].sum+=r.score;
           scores[r.title].count+=1;
@@ -292,6 +304,8 @@ function loadScores(cb){
     cb();
   })
   .catch(function(){ cb(); });
+}
+
 }
 
 function avg(t){
