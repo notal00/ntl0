@@ -287,7 +287,7 @@ function loadScores(cb){
       var filtered=rows.filter(function(r){
         var key=r.title;
         var t=new Date(r.created_at).getTime();
-        if(lastTime[key]===undefined || t-lastTime[key]>60000){
+        if(lastTime[key]===undefined || t-lastTime[key]>300000){
           lastTime[key]=t;
           return true;
         }
