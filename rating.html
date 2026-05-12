@@ -306,8 +306,6 @@ function loadScores(cb){
   .catch(function(){ cb(); });
 }
 
-}
-
 function avg(t){
   var s=scores[t];
   return s.count>0 ? (s.sum/s.count) : 0;
