@@ -200,6 +200,10 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .float-rating { position:fixed; bottom:82px; right:36px; width:36px; height:36px; border:1px solid var(--border-rule); background:var(--bg); color:var(--purple-mid); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:.85; transition:opacity .25s,border-color .25s,color .25s; z-index:100; text-decoration:none; }
 .float-rating:hover { opacity:1; border-color:var(--purple-soft); color:var(--purple-deep); }
 
+.page-nav { display:flex; align-items:center; gap:12px; margin-bottom:44px; opacity:0; animation:fadeUp .9s ease .42s forwards; }
+.page-nav-link { font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--text-muted); transition:color .25s; }
+.page-nav-link:hover { color:var(--purple-mid); }
+.page-nav-dot { width:3px; height:3px; background:var(--purple-pale); border-radius:50%; flex-shrink:0; }
 
 </style>
 </head>
@@ -274,6 +278,12 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <div class="line rev"></div>
   </div>
 
+  <div class="page-nav">
+  <a class="page-nav-link" href="#updates">近期更新</a>
+  <span class="page-nav-dot"></span>
+  <a class="page-nav-link" href="#guestbook">留言板</a>
+</div>
+
   <div class="filter-section">
     <div class="filter-hint">点击标签可筛选该分类下的作品，再次点击取消筛选。</div>
     <div class="filter-groups">
@@ -324,7 +334,7 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   <div class="works" id="worksList"></div>
   <div class="no-results" id="noResults">暂无该标签下的作品。</div>
 
-  <div class="updates-section">
+  <div class="updates-section" id="updates">
     <div class="updates-title">近期更新 &nbsp;&mdash;&nbsp; Updates</div>
     <div class="update-list" id="updateList">
       <div class="update-item">
@@ -351,7 +361,7 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <button class="update-more" id="updateMore">展开更多</button>
   </div>
   
-  <div class="guestbook-section">
+<div class="guestbook-section" id="guestbook">
     <div class="guestbook-title">留言板 &nbsp;&mdash;&nbsp; Guestbook</div>
     <div class="guestbook-form">
       <div class="form-row">
