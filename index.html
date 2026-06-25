@@ -180,6 +180,48 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .footer-link { font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--purple-mid); text-decoration:none; border-bottom:1px solid transparent; padding-bottom:1px; transition:color .25s,border-color .25s; }
 .footer-link:hover { color:var(--purple-deep); border-color:var(--purple-soft); }
 
+  /* EXCERPT */
+.excerpt-section { margin-bottom:52px; opacity:0; animation:fadeUp .9s ease .42s forwards; }
+.excerpt-card {
+  background:linear-gradient(135deg,var(--purple-ghost) 0%,transparent 100%);
+  border:1px solid var(--border-rule);
+  padding:28px 32px 24px;
+  cursor:pointer;
+  position:relative;
+  transition:border-color .3s;
+  user-select:none;
+}
+.excerpt-card:hover { border-color:var(--purple-soft); }
+.excerpt-text {
+  font-family:'Noto Serif SC','PingFang SC',serif;
+  font-size:12.5px;
+  font-weight:300;
+  color:var(--text-sub);
+  line-height:2;
+  letter-spacing:.06em;
+  margin-bottom:16px;
+  white-space:pre-wrap;
+}
+.excerpt-source {
+  font-family:'Cormorant Garamond','Georgia',serif;
+  font-size:15px;
+  font-style:italic;
+  color:var(--purple-mid);
+  letter-spacing:.08em;
+  text-align:right;
+  display:block;
+}
+.excerpt-hint {
+  font-family:'Cormorant Garamond','Georgia',serif;
+  font-size:10px;
+  font-style:italic;
+  letter-spacing:.2em;
+  color:var(--text-muted);
+  margin-bottom:12px;
+}
+.excerpt-fade { animation:excerptFade .5s ease; }
+@keyframes excerptFade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
 @media (max-width: 560px) {
@@ -277,6 +319,14 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <div class="diamond"></div>
     <div class="line rev"></div>
   </div>
+  
+  <div class="excerpt-section">
+  <div class="excerpt-hint">点击换一条</div>
+  <div class="excerpt-card" id="excerptCard">
+    <div class="excerpt-text" id="excerptText"></div>
+    <span class="excerpt-source" id="excerptSource"></span>
+  </div>
+</div>
 
   <div class="page-nav">
   <a class="page-nav-link" href="#updates">近期更新</a>
@@ -607,6 +657,46 @@ window.addEventListener('scroll',function(){
 backTop.addEventListener('click',function(){
   window.scrollTo({top:0,behavior:'smooth'});
 });
+
+  var EXCERPTS=[
+  {text:"呼吸在车窗上凝出一小片水雾，我的手指滑过去，留下模糊的指纹和一道笔迹。\n要写点儿什么吗？\n画个圈，一条横线，两道短竖。是他的名字，一不留神就又想到了他。\n据说韩文的造字者望着窗棂，把这些边界框架当作字节，才成了文字。我发觉我也画了扇方正狭小的窗，一轮圆满的月，远在记忆里，触不可及。", source:"《智齿》"},
+  {text:"总是这样，不爱就不痛，痛了才更爱，这是我之于你的唯一性，我们的爱的唯一性。", source:"《春风沉醉》"},
+  {text:"崔胜澈跪着、仰着头，这个姿势让他看起来近乎虔诚，做的是服务别人的事情，却好像更能取悦他自己。他总是不专心，比如接吻的时候，比如现在满口"咸奶油"的时候，他就是会去想别的，想他何至于这样迷恋或崇拜，想不出来缘由，就是太喜欢了。太喜欢尹净汉。", source:"〈Crème〉"},
+  {text:"崔胜澈倒不好意思去看尹净汉了，只有欲望存在时，怎么审视都无关痛痒，可感情冒出一点点芽，平凡的爱人立马就多了层圣洁的光，看也不敢看，碰都碰不得。", source:"《温和疗愈》"},
+  {text:"有的人天生会爱人，有的人不走运，心被冰封着，要捂热了才能开花结果。", source:"《温和疗愈》"},
+  {text:"没学会爱人的时候，以为什么都是情趣的手段，现在成了单纯的傻瓜，一滴泪水都能瓦解防备。", source:"《温和疗愈》"},
+  {text:"我之前不是这样的人，胜宽还说我总是木木的，像冰天雪地里独来独往的北极熊，或是没有感情的机器人，但可能是北极熊到了热带被热化了，或者爱情病毒让机器人短路，我突然就有种要表现出爱的冲动。", source:"《我哥分手了吗》"},
+  {text:"尹净汉在隐秘地、偷偷地爱着他，在他不知情的时间里，一直这样爱着他。", source:"《摘星》"},
+  {text:"他的不甘心像一股绳子似的，紧紧地拧着，紧紧地勒着他，嵌到了皮肉里，磨出了皮开肉绽的伤口，疼着疼着就变了味儿，变得又酸又辣，像一颗怪味糖，爱情和亲情都浮在表面，被求而不得的嫉恨溶解了，内核只有他令人作呕的欲望。", source:"《孪生异梦》"},
+  {text:"这是那一次认错，尹净汉说过的话，原话是怎样不重要，崔胜哲只记得，在那个瞬间里，尹净汉是真实地在爱着他的。", source:"《孪生异梦》"},
+  {text:"他觉得他像琥珀里的昆虫，别人看着很漂亮，只有他自己难受。崔胜澈起码能听到尹净汉的求救，知道琥珀只是一滴"泪"。尹净汉现在就被这滴泪困住了。", source:"《不想恋爱的理由》"},
+  {text:"崔胜澈离开之后，我比谁都讨厌我自己，过去、现在、未来，我目光所及都被罩了一层黑白的滤镜，我怎么做，我筋疲力尽，我都弥补不了。我从没想过，在他爱我的前提下，我的存在本身就是一种力量。", source:"《沙漏》"},
+  {text:"爱才能穿越时间，堆在我的沙漏里，让冰冷的流沙变成璀璨鎏金。", source:"《沙漏》"},
+  {text:"可惜崔胜澈不知有怎样的魔力，无处不在似的，拍照时听到的歌、搭配时用到的项链或戒指，都能让尹净汉毫不费力地想起他，之后再拼了命地忘掉他。", source:"《不想恋爱的理由》"}
+];
+
+var currentExcerpt=-1;
+function showExcerpt(idx){
+  var card=document.getElementById('excerptCard');
+  var textEl=document.getElementById('excerptText');
+  var srcEl=document.getElementById('excerptSource');
+  textEl.textContent=EXCERPTS[idx].text;
+  srcEl.textContent=EXCERPTS[idx].source;
+  card.classList.remove('excerpt-fade');
+  void card.offsetWidth;
+  card.classList.add('excerpt-fade');
+  currentExcerpt=idx;
+}
+
+function nextExcerpt(){
+  var idx;
+  do { idx=Math.floor(Math.random()*EXCERPTS.length); }
+  while(idx===currentExcerpt && EXCERPTS.length>1);
+  showExcerpt(idx);
+}
+
+document.getElementById('excerptCard').addEventListener('click',nextExcerpt);
+nextExcerpt();
 
 </script>
 </body>
