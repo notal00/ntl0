@@ -222,8 +222,9 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 }
   .excerpt-label { font-family:'Cormorant Garamond','Georgia',serif; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:16px; }
 
-.excerpt-fade { animation:excerptFade .5s ease; }
-@keyframes excerptFade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.excerpt-card { transition:opacity .4s ease, transform .4s cubic-bezier(.25,.46,.45,.94); }
+.excerpt-card.fade-out { opacity:0; transform:translateY(6px); }
+.excerpt-card.fade-in { opacity:1; transform:translateY(0); }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
@@ -326,6 +327,7 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   <div class="excerpt-section">
   <div class="excerpt-hint">点击换一条</div>
   <div class="excerpt-card" id="excerptCard">
+    <span class="excerpt-label">句摘</span>
     <div class="excerpt-text" id="excerptText"></div>
     <span class="excerpt-source" id="excerptSource"></span>
   </div>
@@ -683,13 +685,17 @@ function showExcerpt(idx){
   var card=document.getElementById('excerptCard');
   var textEl=document.getElementById('excerptText');
   var srcEl=document.getElementById('excerptSource');
-  textEl.textContent=EXCERPTS[idx].text;
-  srcEl.textContent=EXCERPTS[idx].source;
-  card.classList.remove('excerpt-fade');
-  void card.offsetWidth;
-  card.classList.add('excerpt-fade');
+  card.classList.add('fade-out');
+  setTimeout(function(){
+    textEl.textContent=EXCERPTS[idx].text;
+    srcEl.textContent=EXCERPTS[idx].source;
+    card.classList.remove('fade-out');
+    card.classList.add('fade-in');
+    setTimeout(function(){ card.classList.remove('fade-in'); },400);
+  },350);
   currentExcerpt=idx;
 }
+
 
 function nextExcerpt(){
   var idx;
