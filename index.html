@@ -191,6 +191,7 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   transition:border-color .3s;
   user-select:none;
 }
+  .excerpt-text p { text-indent:2em; margin:0; }
 .excerpt-card:hover { border-color:var(--purple-soft); }
 .excerpt-text {
   font-family:'Noto Serif SC','PingFang SC',serif;
@@ -201,7 +202,6 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
   letter-spacing:.06em;
   margin-bottom:16px;
   white-space:pre-wrap;
-  text-indent: 2em;
 }
 .excerpt-source {
   font-family:'Cormorant Garamond','Georgia',serif;
@@ -687,7 +687,7 @@ function showExcerpt(idx){
   var srcEl=document.getElementById('excerptSource');
   card.classList.add('fade-out');
   setTimeout(function(){
-    textEl.textContent=EXCERPTS[idx].text;
+textEl.innerHTML=EXCERPTS[idx].text.split('\n').map(function(p){ return p?'<p>'+p+'</p>':''; }).join('');
     srcEl.textContent=EXCERPTS[idx].source;
     card.classList.remove('fade-out');
     card.classList.add('fade-in');
