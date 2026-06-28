@@ -251,11 +251,11 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .page-nav-link:hover { color:var(--purple-mid); }
 .page-nav-dot { width:3px; height:3px; background:var(--purple-pale); border-radius:50%; flex-shrink:0; }
 
-  .marquee-wrap { overflow:hidden; margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; border-top:1px solid transparent; border-bottom:1px solid transparent; border-image:linear-gradient(90deg,transparent,var(--border-rule),transparent) 1; padding:10px 0; }
-.marquee-track { display:flex; width:max-content; animation:marquee 18s linear infinite; }
-.marquee-track:hover { animation-play-state:paused; }
-.marquee-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.18em; color:var(--text-muted); padding-right:60px; white-space:nowrap; }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.marquee-wrap { margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; border-top:1px solid transparent; border-bottom:1px solid transparent; border-image:linear-gradient(90deg,transparent,var(--border-rule),transparent) 1; padding:10px 0; overflow:hidden; max-height:2.4em; }
+.marquee-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.18em; color:var(--text-muted); display:block; line-height:2; animation:textBlink 3s ease-in-out infinite; }
+.marquee-scroll { animation:textScroll 6s ease-in-out infinite; }
+@keyframes textBlink { 0%,100%{opacity:.6} 50%{opacity:1} }
+@keyframes textScroll { 0%,30%{transform:translateY(0)} 60%,90%{transform:translateY(-50%)} 100%{transform:translateY(0)} }
 
 </style>
 </head>
@@ -324,13 +324,8 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <p class="site-sub">所有文章均发布于 Archive of Our Own</p>
   </header>
 
-  <div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
-    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
-    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
-    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
-  </div>
+<div class="marquee-wrap" id="marqueeWrap">
+  <div class="marquee-text" id="marqueeText">新增句摘版块，大家有喜欢的可以在留言板留言！</div>
 </div>
 
   <div class="ornament-rule">
@@ -721,6 +716,23 @@ function nextExcerpt(){
 
 document.getElementById('excerptCard').addEventListener('click',nextExcerpt);
 nextExcerpt();
+
+  (function(){
+  var wrap=document.getElementById('marqueeWrap');
+  var text=document.getElementById('marqueeText');
+  if(!wrap||!text) return;
+  // 如果文字超出一行，启用上下滚动
+  setTimeout(function(){
+    if(text.scrollWidth>wrap.offsetWidth){
+      var clone=text.cloneNode(true);
+      wrap.appendChild(clone);
+      text.classList.add('marquee-scroll');
+      clone.classList.add('marquee-scroll');
+      wrap.style.maxHeight='2.4em';
+    }
+  },500);
+})();
+
 
 </script>
 </body>
