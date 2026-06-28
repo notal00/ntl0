@@ -251,11 +251,10 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .page-nav-link:hover { color:var(--purple-mid); }
 .page-nav-dot { width:3px; height:3px; background:var(--purple-pale); border-radius:50%; flex-shrink:0; }
 
-.marquee-wrap { margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; border-top:1px solid transparent; border-bottom:1px solid transparent; border-image:linear-gradient(90deg,transparent,var(--border-rule),transparent) 1; padding:10px 0; overflow:hidden; max-height:2.4em; }
-.marquee-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.18em; color:var(--text-muted); display:block; line-height:2; animation:textBlink 3s ease-in-out infinite; }
-.marquee-scroll { animation:textScroll 6s ease-in-out infinite; }
-@keyframes textBlink { 0%,100%{opacity:.6} 50%{opacity:1} }
-@keyframes textScroll { 0%,30%{transform:translateY(0)} 60%,90%{transform:translateY(-50%)} 100%{transform:translateY(0)} }
+.notice-wrap { margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; display:flex; gap:14px; align-items:center; background:var(--purple-ghost); padding:12px 18px; border-left:2px solid var(--purple-soft); }
+.notice-dot { width:4px; height:4px; background:var(--purple-soft); border-radius:50%; flex-shrink:0; animation:textBlink 2.5s ease-in-out infinite; }
+.notice-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.15em; color:var(--text-sub); line-height:1.8; }
+@keyframes textBlink { 0%,100%{opacity:.4} 50%{opacity:1} }
 
 </style>
 </head>
@@ -324,8 +323,9 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <p class="site-sub">所有文章均发布于 Archive of Our Own</p>
   </header>
 
-<div class="marquee-wrap" id="marqueeWrap">
-  <div class="marquee-text" id="marqueeText">新增句摘版块，大家有喜欢的可以在留言板留言！</div>
+<div class="notice-wrap">
+  <span class="notice-dot"></span>
+  <span class="notice-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
 </div>
 
   <div class="ornament-rule">
