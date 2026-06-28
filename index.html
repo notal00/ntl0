@@ -251,6 +251,12 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .page-nav-link:hover { color:var(--purple-mid); }
 .page-nav-dot { width:3px; height:3px; background:var(--purple-pale); border-radius:50%; flex-shrink:0; }
 
+  .marquee-wrap { overflow:hidden; margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; border-top:1px solid transparent; border-bottom:1px solid transparent; border-image:linear-gradient(90deg,transparent,var(--border-rule),transparent) 1; padding:10px 0; }
+.marquee-track { display:flex; width:max-content; animation:marquee 18s linear infinite; }
+.marquee-track:hover { animation-play-state:paused; }
+.marquee-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.18em; color:var(--text-muted); padding-right:60px; white-space:nowrap; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
 </style>
 </head>
 <body>
@@ -317,6 +323,15 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <div class="header-rule"></div>
     <p class="site-sub">所有文章均发布于 Archive of Our Own</p>
   </header>
+
+  <div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+    <span class="marquee-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+  </div>
+</div>
 
   <div class="ornament-rule">
     <div class="line"></div>
