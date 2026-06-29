@@ -91,7 +91,7 @@ a { color: inherit; text-decoration: none; }
 .page { position:relative; z-index:1; max-width:700px; margin:0 auto; padding:0 44px; }
 
 /* HEADER */
-header { padding-top:96px; padding-bottom:36px; opacity:0; animation:fadeUp 1s ease .1s forwards; }
+header { padding-top:130px; padding-bottom:36px; opacity:0; animation:fadeUp 1s ease .1s forwards; }
 .eyebrow { font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; letter-spacing:.38em; text-transform:uppercase; color:var(--purple-soft); margin-bottom:18px; }
 .site-name { font-family:'Cormorant Garamond','Georgia',serif; font-size:clamp(48px,9vw,76px); font-weight:300; font-style:italic; line-height:1; letter-spacing:-.02em; margin-bottom:22px; color:var(--name-color); }
 .site-tagline { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; color:var(--purple-soft); letter-spacing:.22em; margin-bottom:20px; }
@@ -251,14 +251,18 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 .page-nav-link:hover { color:var(--purple-mid); }
 .page-nav-dot { width:3px; height:3px; background:var(--purple-pale); border-radius:50%; flex-shrink:0; }
 
-.notice-wrap { margin-bottom:28px; opacity:0; animation:fadeUp 1s ease .32s forwards; display:flex; gap:14px; align-items:center; background:var(--purple-ghost); padding:12px 18px; border-left:2px solid var(--purple-soft); }
-.notice-dot { width:4px; height:4px; background:var(--purple-soft); border-radius:50%; flex-shrink:0; animation:textBlink 2.5s ease-in-out infinite; }
-.notice-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:12px; font-style:italic; letter-spacing:.15em; color:var(--text-sub); line-height:1.8; }
-@keyframes textBlink { 0%,100%{opacity:.4} 50%{opacity:1} }
+.site-notice { position:fixed; top:0; left:0; right:0; z-index:200; background:var(--purple-ghost); border-bottom:1px solid var(--border-rule); padding:8px 24px; display:flex; align-items:center; justify-content:center; gap:10px; }
+.site-notice-dot { width:3px; height:3px; background:var(--purple-soft); border-radius:50%; flex-shrink:0; animation:textBlink 2.5s ease-in-out infinite; }
+.site-notice-text { font-family:'Cormorant Garamond','Georgia',serif; font-size:11px; font-style:italic; letter-spacing:.15em; color:var(--text-sub); }
 
 </style>
 </head>
 <body>
+
+  <div class="site-notice">
+  <span class="site-notice-dot"></span>
+  <span class="site-notice-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+</div>
 
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
@@ -322,11 +326,6 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
     <div class="header-rule"></div>
     <p class="site-sub">所有文章均发布于 Archive of Our Own</p>
   </header>
-
-<div class="notice-wrap">
-  <span class="notice-dot"></span>
-  <span class="notice-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
-</div>
 
   <div class="ornament-rule">
     <div class="line"></div>
