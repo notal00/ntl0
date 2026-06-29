@@ -261,7 +261,7 @@ footer { margin-top:16px; padding:44px 0 80px; border-top:1px solid var(--border
 
   <div class="site-notice">
   <span class="site-notice-dot"></span>
-  <span class="site-notice-text">新增句摘版块，大家有喜欢的可以在留言板留言！</span>
+  <span class="site-notice-text">Notice: 新增句摘版块，大家有喜欢的可以在留言板留言！</span>
 </div>
 
 <div class="orb orb-1"></div>
@@ -715,23 +715,6 @@ function nextExcerpt(){
 
 document.getElementById('excerptCard').addEventListener('click',nextExcerpt);
 nextExcerpt();
-
-  (function(){
-  var wrap=document.getElementById('marqueeWrap');
-  var text=document.getElementById('marqueeText');
-  if(!wrap||!text) return;
-  // 如果文字超出一行，启用上下滚动
-  setTimeout(function(){
-    if(text.scrollWidth>wrap.offsetWidth){
-      var clone=text.cloneNode(true);
-      wrap.appendChild(clone);
-      text.classList.add('marquee-scroll');
-      clone.classList.add('marquee-scroll');
-      wrap.style.maxHeight='2.4em';
-    }
-  },500);
-})();
-
 
 </script>
 </body>
